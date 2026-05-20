@@ -5,7 +5,7 @@ COPY Compilator.csproj .
 RUN dotnet restore
 
 COPY . .
-RUN dotnet publish -c Release -o /publish --no-restore
+RUN dotnet publish -c Release -o /publish
 
 # Runtime image with all judge compilers
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
