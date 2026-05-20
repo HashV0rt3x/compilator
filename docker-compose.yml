@@ -1,0 +1,22 @@
+services:
+  compilator:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: compilator:latest
+    container_name: compilator
+    restart: unless-stopped
+    ports:
+      - "5094:8080"
+    volumes:
+      - ../testcases:/opt/judge/testcases:ro
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      Judge__TestCasesBasePath: /opt/judge/testcases
+      Judge__MaxParallelContainers: "4"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/swagger/v1/swagger.json"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
