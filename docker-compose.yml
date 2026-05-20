@@ -1,13 +1,9 @@
 services:
   compilator:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: compilator:latest
+    image: ghcr.io/hashv0rt3x/compilator:latest
     container_name: compilator
     restart: unless-stopped
-    ports:
-      - "5094:8080"
+    network_mode: none
     volumes:
       - ../testcases:/opt/judge/testcases:ro
     environment:
@@ -15,7 +11,7 @@ services:
       Judge__TestCasesBasePath: /opt/judge/testcases
       Judge__MaxParallelContainers: "4"
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/swagger/v1/swagger.json"]
+      test: ["CMD", "wget", "-qO-", "http://localhost:8080/swagger/v1/swagger.json"]
       interval: 30s
       timeout: 10s
       retries: 3
